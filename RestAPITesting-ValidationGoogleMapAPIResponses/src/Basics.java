@@ -4,6 +4,9 @@ import io.restassured.path.json.JsonPath;
 import static io.restassured.RestAssured.*; 
 import static org.hamcrest.Matchers.*;
 
+import org.testng.Assert;
+
+import files.ReUsableMethods;
 import files.payload;
 public class Basics {
 
@@ -48,9 +51,15 @@ public class Basics {
 	.when().get("maps/api/place/get/json")
 	.then().assertThat().statusCode(200).extract().response().asString();
 	
-	JsonPath getplace = new JsonPath(getPlaceresponse); 
+	JsonPath getplace = ReUsableMethods.rawToJson(getPlaceresponse);
+	// Alternate of above statement
+	//JsonPath getplace = new JsonPath(getPlaceresponse); 
 	String updatedAddress = getplace.getString("address"); 
-	System.out.println(updatedAddress);	
+	System.out.println(updatedAddress);
+	
+	//Two frameworks that are used for checking assertion methods - TestNG, Junit 
+	
+	Assert.assertEquals(updatedAddress, newaddress);
 	
 	}
 
