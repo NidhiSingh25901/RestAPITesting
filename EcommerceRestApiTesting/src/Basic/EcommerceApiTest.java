@@ -85,7 +85,20 @@ public class EcommerceApiTest {
 	  	System.out.println(orderres);
 	  	
 	  	
-	
+	  	//Delete Project
+	 	RequestSpecification DeleteProductBaseReq =  new RequestSpecBuilder().setBaseUri("https://rahulshettyacademy.com") 
+				.addHeader("Authorization", token) 
+				.setContentType(ContentType.JSON)
+				.build();	  	
+	  	
+	  	RequestSpecification DeleteProductReq = given().log().all().spec(DeleteProductBaseReq).pathParam("productId",productid);
+	  	
+	  	String DeleteResponse = DeleteProductReq.when().delete("/api/ecom/product/delete-product/{productId}")
+	  	.then().log().all().extract().response().asString(); 
+	  	
+	  	JsonPath deletejson = new JsonPath(DeleteResponse);
+	  	String msg = deletejson.get("message"); 
+	  	System.out.println(msg);
 	}
 
 }
